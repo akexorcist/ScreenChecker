@@ -15,6 +15,6 @@ Screen Checker application for development information
 
 • Physical, Display and Application screen resolution supported
 
-![Screen Checker on Samsung DeX](https://github.com/akexorcist/Android-ScreenChecker/raw/master/image/image_01.jpg)
+![Screen Checker on Samsung DeX](https://github.com/akexorcist/Android-ScreenChecker/raw/master/image/image_02.jpg)
 
 
