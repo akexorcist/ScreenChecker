@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="info_width">260dp</dimen>
+    <dimen name="info_title_width">120dp</dimen>
+    <dimen name="info_item_margin_vertical">6dp</dimen>
+    <dimen name="info_item_margin_horizontal">24dp</dimen>
+    <dimen name="info_parent_padding_vertical">24dp</dimen>
+    <dimen name="divider_size">2dp</dimen>
+</resources>

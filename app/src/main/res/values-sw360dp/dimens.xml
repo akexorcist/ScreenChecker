@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="info_width">280dp</dimen>
+    <dimen name="info_title_width">150dp</dimen>
+    <dimen name="info_item_margin_vertical">8dp</dimen>
+    <dimen name="info_parent_padding_vertical">48dp</dimen>
+</resources>
