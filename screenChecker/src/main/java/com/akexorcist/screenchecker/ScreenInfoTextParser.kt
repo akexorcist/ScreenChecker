@@ -1,9 +1,7 @@
 package com.akexorcist.screenchecker
 
 import android.content.res.Configuration
-import android.os.Parcelable
 import android.util.DisplayMetrics
-import kotlinx.android.parcel.Parcelize
 
 object ScreenInfoTextParser {
     fun size(screenSize: Int): String = when (screenSize) {
@@ -83,23 +81,4 @@ object ScreenInfoTextParser {
     fun resolutionPx(resolution: Resolution): String = "${"%.0f".format(resolution.x)} x ${"%.0f".format(resolution.y)} px"
 
     fun dpi(dpi: Int): String = "$dpi DPI"
-}
-
-@Parcelize
-data class ColorMode(
-    val hdr: Int,
-    val wideColorGamut: Int
-) : Parcelable
-
-@Parcelize
-data class UiMode(
-    val type: Int,
-    val night: Int
-) : Parcelable
-
-object Multitouch {
-    const val UNSUPPORTED = -1
-    const val SIMPLE = 0
-    const val DISTINCT = 1
-    const val JAZZHAND = 2
 }
