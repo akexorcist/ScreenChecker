@@ -1,4 +1,4 @@
-package com.akexorcist.checkscreen;
+package com.akexorcist.screenchecker;
 
 import android.os.Parcel;
 import android.os.Parcelable;

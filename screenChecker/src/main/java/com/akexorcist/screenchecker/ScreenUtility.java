@@ -1,14 +1,15 @@
-package com.akexorcist.checkscreen;
+package com.akexorcist.screenchecker;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 import java.lang.reflect.Method;
 

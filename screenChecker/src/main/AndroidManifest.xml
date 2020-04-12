@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.akexorcist.screenchecker">
+
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true">
+        <activity
+            android:name=".ScreenCheckerActivity"
+            android:resizeableActivity="true"
+            android:screenOrientation="fullUser" />
+    </application>
+</manifest>
