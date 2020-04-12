@@ -76,9 +76,9 @@ object ScreenInfoTextParser {
         return text
     }
 
-    fun resolutionDp(resolution: Resolution): String = "${"%.0f".format(resolution.x)} x ${"%.0f".format(resolution.y)} dp"
+    fun resolutionDp(resolution: Resolution): String = "${resolution.x} x ${resolution.y} dp"
 
-    fun resolutionPx(resolution: Resolution): String = "${"%.0f".format(resolution.x)} x ${"%.0f".format(resolution.y)} px"
+    fun resolutionPx(resolution: Resolution): String = "${resolution.x} x ${resolution.y} px"
 
     fun dpi(dpi: Int): String = "$dpi DPI"
 }
