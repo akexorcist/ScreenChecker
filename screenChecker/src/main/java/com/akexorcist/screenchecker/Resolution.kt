@@ -5,6 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Resolution(
-    var x: Float,
-    var y: Float
+    var x: Int,
+    var y: Int
 ) : Parcelable
