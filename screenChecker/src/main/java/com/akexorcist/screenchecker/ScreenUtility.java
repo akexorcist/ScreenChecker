@@ -9,191 +9,105 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.lang.reflect.Method;
 
 public class ScreenUtility {
-
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static String getDeviceResolutionPx(Activity activity) {
-        Resolution screenResolution = ScreenUtility.getDeviceScreenResolutionPx(activity, null);
-        return (int) screenResolution.getX() + " x " + (int) screenResolution.getY() + " px";
+    public static Resolution getDeviceResolutionPx(Activity activity) {
+        return ScreenUtility.getDeviceScreenResolutionPx(activity, null);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static String getDeviceResolutionDp(Activity activity) {
+    public static Resolution getDeviceResolutionDp(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         DisplayMetrics dm = new DisplayMetrics();
         display.getMetrics(dm);
         Resolution screenResolution = ScreenUtility.getDeviceScreenResolutionPx(activity, display);
-        int heightDp = (int) (screenResolution.getY() * (1f / dm.density));
-        int widthDp = (int) (screenResolution.getX() * (1f / dm.density));
-        return widthDp + " x " + heightDp + " dp";
+        int xDp = (int) (screenResolution.getX() * (1f / dm.density));
+        int yDp = (int) (screenResolution.getY() * (1f / dm.density));
+        return new Resolution(xDp, yDp);
     }
 
-    public static String getCurrentResolutionPx(Activity activity) {
-        Resolution screenResolution = ScreenUtility.getCurrentScreenResolutionPx(activity, null);
-        return (int) screenResolution.getX() + " x " + (int) screenResolution.getY() + " px";
+    public static Resolution getCurrentResolutionPx(Activity activity) {
+        return ScreenUtility.getCurrentScreenResolutionPx(activity, null);
     }
 
-    public static String getCurrentResolutionDp(Activity activity) {
+    public static Resolution getCurrentResolutionDp(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         DisplayMetrics dm = new DisplayMetrics();
         display.getMetrics(dm);
         Resolution screenResolution = ScreenUtility.getCurrentScreenResolutionPx(activity, display);
-        int heightDp = (int) (screenResolution.getY() * (1f / dm.density));
-        int widthDp = (int) (screenResolution.getX() * (1f / dm.density));
-        return widthDp + " x " + heightDp + " dp";
+        int xDp = (int) (screenResolution.getX() * (1f / dm.density));
+        int yDp = (int) (screenResolution.getY() * (1f / dm.density));
+        return new Resolution(xDp, yDp);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public static String getAppResolutionPx(Activity activity, View rootView) {
-        Resolution screenResolution = ScreenUtility.getAppScreenResolutionPx(rootView);
-        return (int) screenResolution.getX() + " x " + (int) screenResolution.getY() + " px";
+    public static Resolution getAppResolutionPx(View rootView) {
+        return ScreenUtility.getAppScreenResolutionPx(rootView);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public static String getAppResolutionDp(Activity activity, View rootView) {
+    public static Resolution getAppResolutionDp(Activity activity, View rootView) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         DisplayMetrics dm = new DisplayMetrics();
         display.getMetrics(dm);
         Resolution screenResolution = ScreenUtility.getAppScreenResolutionPx(rootView);
-        int heightDp = (int) (screenResolution.getY() * (1f / dm.density));
-        int widthDp = (int) (screenResolution.getX() * (1f / dm.density));
-        return widthDp + " x " + heightDp + " dp";
+        int xDp = (int) (screenResolution.getX() * (1f / dm.density));
+        int yDp = (int) (screenResolution.getY() * (1f / dm.density));
+        return new Resolution(xDp, yDp);
     }
 
-    public static String getDpi(Activity activity) {
+    public static int getDpi(Activity activity) {
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        return dm.densityDpi + " DPI";
+        return dm.densityDpi;
     }
 
-    public static String getSize(Context context) {
-        int screenSize = context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK;
-        if (screenSize == Configuration.SCREENLAYOUT_SIZE_SMALL) {
-            return "Small";
-        } else if (screenSize == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-            return "Normal";
-        } else if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            return "Large";
-        } else if (screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            return "Extra Large";
-        } else if (screenSize == Configuration.SCREENLAYOUT_SIZE_UNDEFINED) {
-            return "Undefined";
-        }
-        return "Unknown";
-    }
-
-    public static String getDensity(Activity activity) {
+    public static int getDensity(Activity activity) {
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        if (dm.densityDpi == DisplayMetrics.DENSITY_LOW) {
-            return "Low";
-        } else if (dm.densityDpi == DisplayMetrics.DENSITY_MEDIUM) {
-            return "Medium";
-        } else if (dm.densityDpi == DisplayMetrics.DENSITY_TV) {
-            return "TV";
-        } else if (dm.densityDpi == DisplayMetrics.DENSITY_HIGH) {
-            return "High";
-        } else if (dm.densityDpi == DisplayMetrics.DENSITY_XHIGH) {
-            return "Extra High";
-        } else if (dm.densityDpi == DisplayMetrics.DENSITY_XXHIGH) {
-            return "Extra Extra High";
-        } else if (dm.densityDpi == DisplayMetrics.DENSITY_XXXHIGH) {
-            return "Extra Extra Extra High";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
-                && dm.densityDpi == DisplayMetrics.DENSITY_260) {
-            return "Density 260";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
-                && dm.densityDpi == DisplayMetrics.DENSITY_280) {
-            return "280";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
-                && dm.densityDpi == DisplayMetrics.DENSITY_300) {
-            return "300";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
-                && dm.densityDpi == DisplayMetrics.DENSITY_340) {
-            return "340";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && dm.densityDpi == DisplayMetrics.DENSITY_360) {
-            return "360";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                && dm.densityDpi == DisplayMetrics.DENSITY_400) {
-            return "400";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && dm.densityDpi == DisplayMetrics.DENSITY_420) {
-            return "420";
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                && dm.densityDpi == DisplayMetrics.DENSITY_560) {
-            return "560";
-        }
-        return "Unknown";
+        return dm.densityDpi;
     }
 
-    public static String getRatio(Context context) {
-        int screenSize = context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_LONG_MASK;
-        if (screenSize == Configuration.SCREENLAYOUT_LONG_YES) {
-            return "Long";
-        } else if (screenSize == Configuration.SCREENLAYOUT_LONG_NO) {
-            return "Not Long";
-        } else if (screenSize == Configuration.SCREENLAYOUT_LONG_UNDEFINED) {
-            return "Undefined";
-        }
-        return "Unknown";
+    public static int getSize(Context context) {
+        return context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
     }
 
-    public static String getColorMode(Context context) {
+    public static int getLayout(Context context) {
+        return context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_LONG_MASK;
+    }
+
+    public static @NonNull
+    ColorMode getColorMode(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int hdr = context.getResources().getConfiguration().colorMode & Configuration.COLOR_MODE_HDR_MASK;
             int wideColorGamut = context.getResources().getConfiguration().colorMode & Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_MASK;
-            if (hdr == Configuration.COLOR_MODE_HDR_YES && wideColorGamut == Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_YES) {
-                return "HDR & Wide Color Gamut";
-            } else if (hdr == Configuration.COLOR_MODE_HDR_YES) {
-                return "HDR";
-            } else if (wideColorGamut == Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_YES) {
-                return "Wide Color Gamut";
-            }
+            return new ColorMode(hdr, wideColorGamut);
+        } else {
+            return new ColorMode(0, 0);
         }
-        return "Not supported";
     }
 
-    public static String getUiMode(Context context) {
-        int uiModeType = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK;
-        int uiModeNight = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        String uiMode = "Unknown";
-        if (uiModeType == Configuration.UI_MODE_TYPE_APPLIANCE) {
-            uiMode = "Appliance";
-        } else if (uiModeType == Configuration.UI_MODE_TYPE_CAR) {
-            uiMode = "Car";
-        } else if (uiModeType == Configuration.UI_MODE_TYPE_DESK) {
-            uiMode = "Desk";
-        } else if (uiModeType == Configuration.UI_MODE_TYPE_NORMAL) {
-            uiMode = "Normal";
-        } else if (uiModeType == Configuration.UI_MODE_TYPE_TELEVISION) {
-            uiMode = "Television";
-        } else if (uiModeType == Configuration.UI_MODE_TYPE_VR_HEADSET) {
-            uiMode = "VR Headset";
-        } else if (uiModeType == Configuration.UI_MODE_TYPE_WATCH) {
-            uiMode = "Watch";
-        }
-        if (uiModeNight == Configuration.UI_MODE_NIGHT_YES) {
-            uiMode += " with Night";
-        }
-        return uiMode;
+    public static UiMode getUiMode(Context context) {
+        int type = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_TYPE_MASK;
+        int night = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return new UiMode(type, night);
     }
 
-    public static String getMultitouch(Context context) {
+    public static int getMultitouch(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_JAZZHAND)) {
-            return "5+ Points";
+            return Multitouch.JAZZHAND;
         } else if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_DISTINCT)) {
-            return "2-5 Points";
+            return Multitouch.DISTINCT;
         } else if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH)) {
-            return "2 Points";
+            return Multitouch.SIMPLE;
+        } else {
+            return Multitouch.UNSUPPORTED;
         }
-        return "Not supported";
     }
 
     @SuppressWarnings("deprecation")
@@ -201,13 +115,17 @@ public class ScreenUtility {
         if (display == null) {
             display = activity.getWindowManager().getDefaultDisplay();
         }
-        int resolutionX = 0, resolutionY = 0;
+        int resolutionX, resolutionY;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             try {
-                Method mGetRawH = Display.class.getMethod("getRawHeight");
-                Method mGetRawW = Display.class.getMethod("getRawWidth");
-                resolutionX = (Integer) mGetRawW.invoke(display);
-                resolutionY = (Integer) mGetRawH.invoke(display);
+                @SuppressWarnings("JavaReflectionMemberAccess")
+                Method getRawHeightMethod = Display.class.getMethod("getRawHeight");
+                @SuppressWarnings("JavaReflectionMemberAccess")
+                Method getRawWidthMethod = Display.class.getMethod("getRawWidth");
+                //noinspection ConstantConditions
+                resolutionX = (Integer) getRawWidthMethod.invoke(display);
+                //noinspection ConstantConditions
+                resolutionY = (Integer) getRawHeightMethod.invoke(display);
             } catch (Exception e) {
                 resolutionX = display.getWidth();
                 resolutionY = display.getHeight();
@@ -222,7 +140,6 @@ public class ScreenUtility {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    @SuppressWarnings("deprecation")
     private static Resolution getDeviceScreenResolutionPx(Activity activity, Display display) {
         if (display == null) {
             display = activity.getWindowManager().getDefaultDisplay();
@@ -232,17 +149,9 @@ public class ScreenUtility {
         return new Resolution(resolutionX, resolutionY);
     }
 
-    @SuppressWarnings("deprecation")
     private static Resolution getAppScreenResolutionPx(View rootView) {
         float resolutionX = rootView.getMeasuredWidth();
         float resolutionY = rootView.getMeasuredHeight();
         return new Resolution(resolutionX, resolutionY);
-    }
-
-    private Display getDefaultDisplay(Activity activity) {
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        DisplayMetrics dm = new DisplayMetrics();
-        display.getMetrics(dm);
-        return display;
     }
 }

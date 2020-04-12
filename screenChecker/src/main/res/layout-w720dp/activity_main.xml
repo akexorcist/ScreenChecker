@@ -319,10 +319,10 @@
                     style="@style/TextView.Title"
                     android:layout_width="@dimen/info_title_width"
                     android:layout_height="wrap_content"
-                    android:text="@string/info_ratio" />
+                    android:text="@string/info_layout" />
 
                 <TextView
-                    android:id="@+id/textViewRatio"
+                    android:id="@+id/textViewLayout"
                     style="@style/TextView.Content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
