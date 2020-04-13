@@ -21,6 +21,10 @@ object ScreenInfoTextParser {
         DisplayMetrics.DENSITY_XHIGH -> "Extra High"
         DisplayMetrics.DENSITY_XXHIGH -> "Extra Extra High"
         DisplayMetrics.DENSITY_XXXHIGH -> "Extra Extra Extra High"
+        DisplayMetrics.DENSITY_140 -> "Density 140"
+        DisplayMetrics.DENSITY_180 -> "Density 180"
+        DisplayMetrics.DENSITY_200 -> "Density 200"
+        DisplayMetrics.DENSITY_220 -> "Density 220"
         DisplayMetrics.DENSITY_260 -> "Density 260"
         DisplayMetrics.DENSITY_280 -> "Density 280"
         DisplayMetrics.DENSITY_300 -> "Density 300"
@@ -28,7 +32,10 @@ object ScreenInfoTextParser {
         DisplayMetrics.DENSITY_360 -> "Density 360"
         DisplayMetrics.DENSITY_400 -> "Density 400"
         DisplayMetrics.DENSITY_420 -> "Density 420"
+        DisplayMetrics.DENSITY_440 -> "Density 440"
+        DisplayMetrics.DENSITY_450 -> "Density 450"
         DisplayMetrics.DENSITY_560 -> "Density 560"
+        DisplayMetrics.DENSITY_600 -> "Density 600"
         else -> "Unknown Density ($density)"
     }
 
