@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.akexorcist.checkscreen">
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.akexorcist.checkscreen"
+    android:targetSandboxVersion="2">
+
+    <dist:module dist:instant="true" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -44,11 +48,11 @@
             android:name=".MainActivity"
             android:screenOrientation="fullUser">
             <layout
-                android:defaultHeight="640dp"
                 android:defaultWidth="360dp"
+                android:defaultHeight="640dp"
                 android:gravity="center"
-                android:minHeight="300dp"
-                android:minWidth="300dp" />
+                android:minWidth="300dp"
+                android:minHeight="300dp" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

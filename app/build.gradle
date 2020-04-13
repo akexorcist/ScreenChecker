@@ -9,8 +9,8 @@ android {
         applicationId "app.akexorcist.checkscreen"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 10
-        versionName "2.1.0"
+        versionCode 11
+        versionName "2.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,4 +29,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':screenChecker')
+    implementation "com.google.android.gms:play-services-instantapps:17.0.0"
 }
