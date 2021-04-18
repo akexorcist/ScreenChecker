@@ -106,7 +106,7 @@ object ScreenInfoTextParser {
     }?.joinToString(separator = System.getProperty("line.separator") as CharSequence)
         ?: "Not supported"
 
-    fun display(displayInfo: DisplayInfo): String = mutableListOf<String>().apply {
+    fun currentDisplay(displayInfo: DisplayInfo): String = mutableListOf<String>().apply {
         add(displayInfo.name ?: "Unknown Name")
         displayInfo.refreshRate
             .takeIf { it != -1f }
