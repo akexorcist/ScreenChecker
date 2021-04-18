@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.ColorSpace
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
@@ -11,6 +12,8 @@ import android.view.View
 import androidx.annotation.RequiresApi
 
 object ScreenUtility {
+    private const val DEFAULT_DPI = DisplayMetrics.DENSITY_DEFAULT.toFloat()
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     fun getDeviceResolutionPx(activity: Activity): Resolution {
         return getDeviceScreenResolutionPx(activity)
@@ -18,12 +21,11 @@ object ScreenUtility {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     fun getDeviceResolutionDp(activity: Activity): Resolution {
-        val display = activity.windowManager.defaultDisplay
-        val dm = DisplayMetrics()
-        display.getMetrics(dm)
+        val display = getDisplay(activity)
+        val densityDpi = getDensityDpi(activity, display)
         val (x, y) = getDeviceScreenResolutionPx(activity, display)
-        val xDp = (x * (1f / dm.density)).toInt()
-        val yDp = (y * (1f / dm.density)).toInt()
+        val xDp = (x * (DEFAULT_DPI / densityDpi)).toInt()
+        val yDp = (y * (DEFAULT_DPI / densityDpi)).toInt()
         return Resolution(xDp, yDp)
     }
 
@@ -32,12 +34,11 @@ object ScreenUtility {
     }
 
     fun getCurrentResolutionDp(activity: Activity): Resolution {
-        val display = activity.windowManager.defaultDisplay
-        val dm = DisplayMetrics()
-        display.getMetrics(dm)
+        val display = getDisplay(activity)
+        val densityDpi = getDensityDpi(activity, display)
         val (x, y) = getCurrentScreenResolutionPx(activity, display)
-        val xDp = (x * (1f / dm.density)).toInt()
-        val yDp = (y * (1f / dm.density)).toInt()
+        val xDp = (x * (DEFAULT_DPI / densityDpi)).toInt()
+        val yDp = (y * (DEFAULT_DPI / densityDpi)).toInt()
         return Resolution(xDp, yDp)
     }
 
@@ -48,22 +49,22 @@ object ScreenUtility {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     fun getAppResolutionDp(activity: Activity, rootView: View): Resolution {
-        val display = activity.windowManager.defaultDisplay
-        val dm = DisplayMetrics()
-        display.getMetrics(dm)
+        val display = getDisplay(activity)
+        val densityDpi = getDensityDpi(activity, display)
         val (x, y) = getAppScreenResolutionPx(rootView)
-        val xDp = (x * (1f / dm.density)).toInt()
-        val yDp = (y * (1f / dm.density)).toInt()
+        val xDp = (x * (DEFAULT_DPI / densityDpi)).toInt()
+        val yDp = (y * (DEFAULT_DPI / densityDpi)).toInt()
         return Resolution(xDp, yDp)
     }
 
-    private fun getCurrentScreenResolutionPx(activity: Activity, display: Display = activity.windowManager.defaultDisplay): Resolution {
+    private fun getCurrentScreenResolutionPx(activity: Activity, display: Display = getDisplay(activity)): Resolution {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             try {
                 val getRawHeightMethod = Display::class.java.getMethod("getRawHeight")
                 val getRawWidthMethod = Display::class.java.getMethod("getRawWidth")
                 Resolution(getRawWidthMethod.invoke(display) as Int, getRawHeightMethod.invoke(display) as Int)
             } catch (e: Exception) {
+                @Suppress("DEPRECATION")
                 Resolution(display.width, display.height)
             }
         } else {
@@ -74,7 +75,7 @@ object ScreenUtility {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun getDeviceScreenResolutionPx(activity: Activity, display: Display = activity.windowManager.defaultDisplay): Resolution {
+    private fun getDeviceScreenResolutionPx(activity: Activity, display: Display = getDisplay(activity)): Resolution {
         val resolutionX = display.mode.physicalWidth
         val resolutionY = display.mode.physicalHeight
         return Resolution(resolutionX, resolutionY)
@@ -86,14 +87,9 @@ object ScreenUtility {
         return Resolution(resolutionX, resolutionY)
     }
 
-    fun getDpi(activity: Activity): Int {
-        val dm = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(dm)
-        return dm.densityDpi
-    }
-
     fun getDensity(activity: Activity): Int {
-        return getDpi(activity)
+        val display = getDisplay(activity)
+        return getDensityDpi(activity, display)
     }
 
     fun getSize(context: Context): Int {
@@ -108,12 +104,18 @@ object ScreenUtility {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val hdr = context.resources.configuration.colorMode and Configuration.COLOR_MODE_HDR_MASK
             val wideColorGamut = context.resources.configuration.colorMode and Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_MASK
-            ColorMode(hdr, wideColorGamut)
+            ColorMode(
+                hdr = hdr == Configuration.COLOR_MODE_HDR_YES,
+                wideColorGamut = wideColorGamut == Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_YES
+            )
         } else {
-            ColorMode(0, 0)
+            ColorMode(
+                hdr = false,
+                wideColorGamut = false
+            )
         }
 
-    fun getHdrType(activity: Activity, display: Display = activity.windowManager.defaultDisplay): HdrType? {
+    fun getHdrType(activity: Activity, display: Display = getDisplay(activity)): HdrType? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val supportedHdrTypes: IntArray = display.hdrCapabilities.supportedHdrTypes
             HdrType(
@@ -135,18 +137,35 @@ object ScreenUtility {
 
     fun getMultitouch(context: Context): Int {
         return when {
-            context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_JAZZHAND) -> {
+            context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_JAZZHAND) ->
                 Multitouch.JAZZHAND
-            }
-            context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_DISTINCT) -> {
+            context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_DISTINCT) ->
                 Multitouch.DISTINCT
-            }
-            context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH) -> {
+            context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH) ->
                 Multitouch.SIMPLE
-            }
-            else -> {
+            else ->
                 Multitouch.UNSUPPORTED
-            }
+        }
+    }
+
+    private fun getDisplay(activity: Activity): Display {
+        @Suppress("DEPRECATION")
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity.display ?: activity.windowManager.defaultDisplay
+        } else {
+            activity.windowManager.defaultDisplay
+        }
+    }
+
+
+    private fun getDensityDpi(activity: Activity, display: Display): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            activity.resources.configuration.densityDpi
+        } else {
+            val dm = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            display.getMetrics(dm)
+            dm.densityDpi
         }
     }
 }

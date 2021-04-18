@@ -46,18 +46,17 @@ object ScreenInfoTextParser {
         else -> "Unknown"
     }
 
-    fun colorMode(colorMode: ColorMode): String =
-        if (colorMode.hdr == Configuration.COLOR_MODE_HDR_YES &&
-            colorMode.wideColorGamut == Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_YES
-        ) {
-            "HDR & Wide Color Gamut"
-        } else if (colorMode.hdr == Configuration.COLOR_MODE_HDR_YES) {
-            "HDR"
-        } else if (colorMode.wideColorGamut == Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_YES) {
-            "Wide Color Gamut"
-        } else {
-            "Not supported"
+    fun colorMode(colorMode: ColorMode): String = mutableListOf<String>().apply {
+        if (colorMode.hdr) {
+            add("HDR")
         }
+        if (colorMode.wideColorGamut) {
+            add("Wide Color Gamut")
+        }
+    }.takeIf {
+        it.isNotEmpty()
+    }?.joinToString(separator = System.getProperty("line.separator") as CharSequence)
+        ?: "Not supported"
 
     fun multitouch(multitouch: Int): String = when (multitouch) {
         Multitouch.JAZZHAND -> "5+ Points"
@@ -104,5 +103,7 @@ object ScreenInfoTextParser {
         }
     }.takeIf {
         it.isNotEmpty()
-    }?.joinToString(separator = System.getProperty("line.separator") as CharSequence) ?: "Not supported"
+    }?.joinToString(separator = System.getProperty("line.separator") as CharSequence)
+        ?: "Not supported"
+
 }
