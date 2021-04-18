@@ -1,10 +1,15 @@
 package com.akexorcist.screenchecker
 
 import android.app.Activity
+import android.content.Context
+import android.hardware.display.DisplayManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import androidx.annotation.RequiresApi
 import com.akexorcist.screenchecker.databinding.ActivityScreenCheckerBinding
 
 class ScreenCheckerActivity : Activity() {
@@ -23,6 +28,45 @@ class ScreenCheckerActivity : Activity() {
 
     private fun setupView() {
         binding.root.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+        updateScreenInfo()
+    }
+
+    private val globalLayoutListener = OnGlobalLayoutListener {
+        updateAppResolution()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerDisplayListener()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterDisplayListener()
+    }
+
+    private fun registerDisplayListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            val manager: DisplayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+            manager.registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
+        }
+    }
+
+    private fun unregisterDisplayListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            val manager: DisplayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+            manager.unregisterDisplayListener(displayListener)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private val displayListener = object : OnDisplayChangedListener {
+        override fun onDisplayChanged(displayId: Int) {
+            updateScreenInfo()
+        }
+    }
+
+    private fun updateScreenInfo() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             binding.layoutSingleResolution.visibility = View.GONE
             binding.layoutMultiResolution.visibility = View.VISIBLE
@@ -54,7 +98,7 @@ class ScreenCheckerActivity : Activity() {
         binding.textViewMultitouch.text = ScreenInfoTextParser.multitouch(ScreenUtility.getMultitouch(this))
     }
 
-    private val globalLayoutListener = OnGlobalLayoutListener {
+    private fun updateAppResolution() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             binding.textViewMultiAppResolutionPx.text =
                 ScreenInfoTextParser.resolutionPx(ScreenUtility.getAppResolutionPx(binding.root))
