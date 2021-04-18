@@ -5,53 +5,71 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import kotlinx.android.synthetic.main.activity_main.*
+import com.akexorcist.screenchecker.databinding.ActivityMainBinding
 
 class ScreenCheckerActivity : Activity() {
-    private val rootView: View by lazy { window.decorView.findViewById<View>(android.R.id.content) }
+    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         setupView()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        rootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+        binding.root.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
     }
 
     private fun setupView() {
-        rootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            layoutSingleResolution.visibility = View.GONE
-            layoutMultiResolution.visibility = View.VISIBLE
-            textViewMultiDeviceResolutionPx.text = ScreenInfoTextParser.resolutionPx(ScreenUtility.getDeviceResolutionPx(this))
-            textViewMultiDeviceResolutionDp.text = ScreenInfoTextParser.resolutionDp(ScreenUtility.getDeviceResolutionDp(this))
-            textViewMultiCurrentResolutionPx.text = ScreenInfoTextParser.resolutionPx(ScreenUtility.getCurrentResolutionPx(this))
-            textViewMultiCurrentResolutionDp.text = ScreenInfoTextParser.resolutionDp(ScreenUtility.getCurrentResolutionDp(this))
+            binding.layoutSingleResolution.visibility = View.GONE
+            binding.layoutMultiResolution.visibility = View.VISIBLE
+            binding.textViewMultiDeviceResolutionPx.text =
+                ScreenInfoTextParser.resolutionPx(ScreenUtility.getDeviceResolutionPx(this))
+            binding.textViewMultiDeviceResolutionDp.text =
+                ScreenInfoTextParser.resolutionDp(ScreenUtility.getDeviceResolutionDp(this))
+            binding.textViewMultiCurrentResolutionPx.text =
+                ScreenInfoTextParser.resolutionPx(ScreenUtility.getCurrentResolutionPx(this))
+            binding.textViewMultiCurrentResolutionDp.text =
+                ScreenInfoTextParser.resolutionDp(ScreenUtility.getCurrentResolutionDp(this))
         } else {
-            layoutSingleResolution.visibility = View.VISIBLE
-            layoutMultiResolution.visibility = View.GONE
-            textViewSingleDeviceResolutionPx.text = ScreenInfoTextParser.resolutionPx(ScreenUtility.getCurrentResolutionPx(this))
-            textViewSingleDeviceResolutionDp.text = ScreenInfoTextParser.resolutionDp(ScreenUtility.getCurrentResolutionDp(this))
+            binding.layoutSingleResolution.visibility = View.VISIBLE
+            binding.layoutMultiResolution.visibility = View.GONE
+            binding.textViewSingleDeviceResolutionPx.text =
+                ScreenInfoTextParser.resolutionPx(ScreenUtility.getCurrentResolutionPx(this))
+            binding.textViewSingleDeviceResolutionDp.text =
+                ScreenInfoTextParser.resolutionDp(ScreenUtility.getCurrentResolutionDp(this))
         }
-        textViewDpi.text = ScreenInfoTextParser.dpi(ScreenUtility.getDpi(this))
-        textViewSize.text = ScreenInfoTextParser.size(ScreenUtility.getSize(this))
-        textViewDensity.text = ScreenInfoTextParser.density(ScreenUtility.getDensity(this))
-        textViewLayout.text = ScreenInfoTextParser.layout(ScreenUtility.getLayout(this))
-        textViewUiMode.text = ScreenInfoTextParser.uiMode(ScreenUtility.getUiMode(this))
-        textViewColorMode.text = ScreenInfoTextParser.colorMode(ScreenUtility.getColorMode(this))
-        textViewMultitouch.text = ScreenInfoTextParser.multitouch(ScreenUtility.getMultitouch(this))
+        binding.textViewDpi.text = ScreenInfoTextParser.dpi(ScreenUtility.getDpi(this))
+        binding.textViewSize.text = ScreenInfoTextParser.size(ScreenUtility.getSize(this))
+        binding.textViewDensity.text = ScreenInfoTextParser.density(ScreenUtility.getDensity(this))
+        binding.textViewLayout.text = ScreenInfoTextParser.layout(ScreenUtility.getLayout(this))
+        binding.textViewUiMode.text = ScreenInfoTextParser.uiMode(ScreenUtility.getUiMode(this))
+        binding.textViewColorMode.text = ScreenInfoTextParser.colorMode(ScreenUtility.getColorMode(this))
+        binding.textViewMultitouch.text = ScreenInfoTextParser.multitouch(ScreenUtility.getMultitouch(this))
     }
 
     private val globalLayoutListener = OnGlobalLayoutListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            textViewMultiAppResolutionPx.text = ScreenInfoTextParser.resolutionPx(ScreenUtility.getAppResolutionPx(rootView))
-            textViewMultiAppResolutionDp.text = ScreenInfoTextParser.resolutionDp(ScreenUtility.getAppResolutionDp(this@ScreenCheckerActivity, rootView))
+            binding.textViewMultiAppResolutionPx.text =
+                ScreenInfoTextParser.resolutionPx(ScreenUtility.getAppResolutionPx(binding.root))
+            binding.textViewMultiAppResolutionDp.text = ScreenInfoTextParser.resolutionDp(
+                ScreenUtility.getAppResolutionDp(
+                    this@ScreenCheckerActivity,
+                    binding.root
+                )
+            )
         } else {
-            textViewSingleAppResolutionPx.text = ScreenInfoTextParser.resolutionPx(ScreenUtility.getAppResolutionPx(rootView))
-            textViewSingleAppResolutionDp.text = ScreenInfoTextParser.resolutionDp(ScreenUtility.getAppResolutionDp(this@ScreenCheckerActivity, rootView))
+            binding.textViewSingleAppResolutionPx.text =
+                ScreenInfoTextParser.resolutionPx(ScreenUtility.getAppResolutionPx(binding.root))
+            binding.textViewSingleAppResolutionDp.text = ScreenInfoTextParser.resolutionDp(
+                ScreenUtility.getAppResolutionDp(
+                    this@ScreenCheckerActivity,
+                    binding.root
+                )
+            )
         }
     }
 }
