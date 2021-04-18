@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/info_parent_padding_vertical"
-        android:paddingTop="@dimen/info_parent_padding_vertical">
+        android:paddingTop="@dimen/info_parent_padding_vertical"
+        android:paddingBottom="@dimen/info_parent_padding_vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -24,8 +24,8 @@
                 android:id="@+id/layoutSingleResolution"
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -68,8 +68,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/info_item_margin_vertical"
                     android:layout_marginTop="@dimen/info_item_margin_vertical"
+                    android:layout_marginBottom="@dimen/info_item_margin_vertical"
                     android:orientation="horizontal">
 
                     <TextView
@@ -108,8 +108,8 @@
                 android:id="@+id/layoutMultiResolution"
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -152,8 +152,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/info_item_margin_vertical"
                     android:layout_marginTop="@dimen/info_item_margin_vertical"
+                    android:layout_marginBottom="@dimen/info_item_margin_vertical"
                     android:orientation="horizontal">
 
                     <TextView
@@ -190,8 +190,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/info_item_margin_vertical"
                     android:layout_marginTop="@dimen/info_item_margin_vertical"
+                    android:layout_marginBottom="@dimen/info_item_margin_vertical"
                     android:orientation="horizontal">
 
                     <TextView
@@ -224,6 +224,29 @@
                             tools:text="731 x 411 dp" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="@dimen/info_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/info_item_margin_vertical"
+                    android:layout_marginBottom="@dimen/info_item_margin_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextView.Title"
+                        android:layout_width="@dimen/info_title_width"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_current_display" />
+
+                    <TextView
+                        android:id="@+id/textViewDisplay"
+                        style="@style/TextView.Content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@string/empty_info"
+                        tools:text="Unknown" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -235,15 +258,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/info_item_margin_horizontal"
             android:layout_marginStart="@dimen/info_item_margin_horizontal"
+            android:layout_marginLeft="@dimen/info_item_margin_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -265,8 +288,8 @@
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -288,8 +311,8 @@
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -311,8 +334,8 @@
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -334,8 +357,8 @@
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -357,8 +380,8 @@
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -380,8 +403,8 @@
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -403,8 +426,8 @@
             <LinearLayout
                 android:layout_width="@dimen/info_width"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:layout_marginTop="@dimen/info_item_margin_vertical"
+                android:layout_marginBottom="@dimen/info_item_margin_vertical"
                 android:orientation="horizontal">
 
                 <TextView

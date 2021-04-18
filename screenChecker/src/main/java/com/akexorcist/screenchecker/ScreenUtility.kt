@@ -148,6 +148,39 @@ object ScreenUtility {
         }
     }
 
+    fun getDefaultDisplayInfo(activity: Activity): DisplayInfo {
+        val display = getDisplay(activity)
+        val name = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            display.name
+        } else {
+            null
+        }
+        val refreshRate: Float
+        val currentMode: Int
+        val supportedModeCount: Int
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            refreshRate = display.refreshRate
+            currentMode = display.mode.modeId
+            supportedModeCount = display.supportedModes.size
+        } else {
+            refreshRate = -1f
+            currentMode = -1
+            supportedModeCount = -1
+        }
+        val colorSpace: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            display.preferredWideGamutColorSpace?.name
+        } else {
+            null
+        }
+        return DisplayInfo(
+            name = name,
+            refreshRate = refreshRate,
+            currentMode = currentMode,
+            supportedModeCount = supportedModeCount,
+            colorSpace = colorSpace
+        )
+    }
+
     private fun getDisplay(activity: Activity): Display {
         @Suppress("DEPRECATION")
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -156,7 +189,6 @@ object ScreenUtility {
             activity.windowManager.defaultDisplay
         }
     }
-
 
     private fun getDensityDpi(activity: Activity, display: Display): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

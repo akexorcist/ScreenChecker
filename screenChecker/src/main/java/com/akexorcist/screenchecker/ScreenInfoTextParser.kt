@@ -106,4 +106,18 @@ object ScreenInfoTextParser {
     }?.joinToString(separator = System.getProperty("line.separator") as CharSequence)
         ?: "Not supported"
 
+    fun display(displayInfo: DisplayInfo): String = mutableListOf<String>().apply {
+        add(displayInfo.name ?: "Unknown Name")
+        displayInfo.refreshRate
+            .takeIf { it != -1f }
+            ?.let { add("${it.toInt()}Hz") }
+        displayInfo.colorSpace
+            .takeIf { !it.isNullOrEmpty() }
+            ?.let { add(it) }
+        displayInfo.currentMode
+            .takeIf { it != -1 }
+            ?.let { currentMode ->
+                add("ID : $currentMode (Total ${displayInfo.supportedModeCount})")
+            }
+    }.joinToString(separator = System.getProperty("line.separator") as CharSequence)
 }
