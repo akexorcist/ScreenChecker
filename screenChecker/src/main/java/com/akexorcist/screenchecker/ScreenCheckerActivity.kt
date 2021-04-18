@@ -5,10 +5,10 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import com.akexorcist.screenchecker.databinding.ActivityMainBinding
+import com.akexorcist.screenchecker.databinding.ActivityScreenCheckerBinding
 
 class ScreenCheckerActivity : Activity() {
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val binding: ActivityScreenCheckerBinding by lazy { ActivityScreenCheckerBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +48,7 @@ class ScreenCheckerActivity : Activity() {
         binding.textViewLayout.text = ScreenInfoTextParser.layout(ScreenUtility.getLayout(this))
         binding.textViewUiMode.text = ScreenInfoTextParser.uiMode(ScreenUtility.getUiMode(this))
         binding.textViewColorMode.text = ScreenInfoTextParser.colorMode(ScreenUtility.getColorMode(this))
+        binding.textViewHdrType.text = ScreenInfoTextParser.hdrType(ScreenUtility.getHdrType(this))
         binding.textViewMultitouch.text = ScreenInfoTextParser.multitouch(ScreenUtility.getMultitouch(this))
     }
 

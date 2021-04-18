@@ -113,6 +113,20 @@ object ScreenUtility {
             ColorMode(0, 0)
         }
 
+    fun getHdrType(activity: Activity, display: Display = activity.windowManager.defaultDisplay): HdrType? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val supportedHdrTypes: IntArray = display.hdrCapabilities.supportedHdrTypes
+            HdrType(
+                dolbyVision = supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION),
+                hdr10 = supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10),
+                hdr10Plus = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10_PLUS)
+                } else false,
+                hlg = supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HLG)
+            )
+        } else null
+    }
+
     fun getUiMode(context: Context): UiMode {
         val type = context.resources.configuration.uiMode and Configuration.UI_MODE_TYPE_MASK
         val night = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK

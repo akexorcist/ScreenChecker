@@ -88,4 +88,21 @@ object ScreenInfoTextParser {
     fun resolutionPx(resolution: Resolution): String = "${resolution.x} x ${resolution.y} px"
 
     fun dpi(dpi: Int): String = "$dpi DPI"
+
+    fun hdrType(hdrType: HdrType?): String = mutableListOf<String>().apply {
+        if (hdrType?.dolbyVision == true) {
+            add("Dolby Vision")
+        }
+        if (hdrType?.hdr10 == true) {
+            add("HDR10")
+        }
+        if (hdrType?.hdr10Plus == true) {
+            add("HDR10+")
+        }
+        if (hdrType?.hlg == true) {
+            add("HLG")
+        }
+    }.takeIf {
+        it.isNotEmpty()
+    }?.joinToString(separator = System.getProperty("line.separator") as CharSequence) ?: "Not supported"
 }

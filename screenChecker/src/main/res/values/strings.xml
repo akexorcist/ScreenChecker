@@ -11,6 +11,7 @@
     <string name="info_layout">Layout</string>
     <string name="info_ui_mode">UI Mode</string>
     <string name="info_color_mode">Color Mode</string>
+    <string name="info_hdr_type">HDR Type</string>
     <string name="info_multitouch">Multitouch</string>
     <string name="empty_info">-</string>
 </resources>
