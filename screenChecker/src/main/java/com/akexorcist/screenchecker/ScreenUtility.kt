@@ -149,24 +149,23 @@ object ScreenUtility {
 
     fun getCurrentDisplay(activity: Activity): DisplayInfo {
         val display = getDisplay(activity)
-        val name = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        val name: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             display.name
-        } else {
-            null
-        }
-        val modeId: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            display.mode.modeId
-        } else {
-            -1
-        }
+        } else null
+        val mode: DisplayMode? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            DisplayMode(
+                id = display.mode.modeId,
+                refreshRate = display.mode.refreshRate.toInt(),
+                width = display.mode.physicalWidth,
+                height = display.mode.physicalHeight
+            )
+        } else null
         val colorSpace: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             display.preferredWideGamutColorSpace?.name
-        } else {
-            null
-        }
+        } else null
         return DisplayInfo(
             name = name,
-            modeId = modeId,
+            mode = mode,
             colorSpace = colorSpace
         )
     }

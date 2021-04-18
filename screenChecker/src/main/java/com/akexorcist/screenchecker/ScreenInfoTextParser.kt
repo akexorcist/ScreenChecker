@@ -111,19 +111,20 @@ object ScreenInfoTextParser {
         displayInfo.colorSpace
             .takeIf { !it.isNullOrEmpty() }
             ?.let { add(it) }
-        displayInfo.modeId
-            .takeIf { it != -1 }
-            ?.let { add("($it)") }
+        displayInfo.mode
+            ?.let { add(displayMode(it)) }
     }.joinToString(separator = System.getProperty("line.separator") as CharSequence)
 
     fun supportedDisplayMode(displayModes: List<DisplayMode>): String {
         val separator = System.getProperty("line.separator")
         return displayModes.takeIf { it.isNotEmpty() }
-            ?.let {
-                it.map { mode ->
-                    "(${mode.id}) ${mode.width} x ${mode.height}$separator${mode.refreshRate}Hz"
-                }
-            }?.joinToString(separator = "$separator$separator" as CharSequence)
+            ?.let { it.map { mode -> displayMode(mode) } }
+            ?.joinToString(separator = "$separator$separator" as CharSequence)
             ?: "Unknown"
+    }
+
+    private fun displayMode(mode: DisplayMode): String {
+        val separator = System.getProperty("line.separator")
+        return "(${mode.id}) ${mode.width} x ${mode.height}$separator${mode.refreshRate}Hz"
     }
 }
