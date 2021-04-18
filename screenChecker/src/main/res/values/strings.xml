@@ -14,5 +14,6 @@
     <string name="info_hdr_type">HDR Type</string>
     <string name="info_multitouch">Multitouch</string>
     <string name="info_current_display">Current Display</string>
+    <string name="info_supported_display_mode">Supported Display Mode</string>
     <string name="empty_info">-</string>
 </resources>

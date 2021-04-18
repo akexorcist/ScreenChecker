@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.ColorSpace
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
@@ -148,24 +147,17 @@ object ScreenUtility {
         }
     }
 
-    fun getDefaultDisplayInfo(activity: Activity): DisplayInfo {
+    fun getCurrentDisplay(activity: Activity): DisplayInfo {
         val display = getDisplay(activity)
         val name = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             display.name
         } else {
             null
         }
-        val refreshRate: Float
-        val currentMode: Int
-        val supportedModeCount: Int
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            refreshRate = display.refreshRate
-            currentMode = display.mode.modeId
-            supportedModeCount = display.supportedModes.size
+        val modeId: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            display.mode.modeId
         } else {
-            refreshRate = -1f
-            currentMode = -1
-            supportedModeCount = -1
+            -1
         }
         val colorSpace: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             display.preferredWideGamutColorSpace?.name
@@ -174,11 +166,27 @@ object ScreenUtility {
         }
         return DisplayInfo(
             name = name,
-            refreshRate = refreshRate,
-            currentMode = currentMode,
-            supportedModeCount = supportedModeCount,
+            modeId = modeId,
             colorSpace = colorSpace
         )
+    }
+
+    fun getSupportedDisplayMode(activity: Activity): List<DisplayMode> {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val display = getDisplay(activity)
+            display.supportedModes?.map { mode ->
+                mode.refreshRate
+                mode.modeId
+                mode.physicalWidth
+                mode.physicalHeight
+                DisplayMode(
+                    id = mode.modeId,
+                    refreshRate = mode.refreshRate.toInt(),
+                    width = mode.physicalWidth,
+                    height = mode.physicalHeight
+                )
+            } ?: emptyList()
+        } else emptyList()
     }
 
     private fun getDisplay(activity: Activity): Display {

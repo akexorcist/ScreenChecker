@@ -42,7 +42,8 @@ class ScreenCheckerActivity : Activity() {
             binding.textViewSingleDeviceResolutionDp.text =
                 ScreenInfoTextParser.resolutionDp(ScreenUtility.getCurrentResolutionDp(this))
         }
-        binding.textViewDisplay.text = ScreenInfoTextParser.currentDisplay(ScreenUtility.getDefaultDisplayInfo(this))
+        binding.textViewCurrentDisplay.text = ScreenInfoTextParser.currentDisplay(ScreenUtility.getCurrentDisplay(this))
+        binding.textViewSupportedDisplayMode.text = ScreenInfoTextParser.supportedDisplayMode(ScreenUtility.getSupportedDisplayMode(this))
         binding.textViewDpi.text = ScreenInfoTextParser.dpi(ScreenUtility.getDensity(this))
         binding.textViewSize.text = ScreenInfoTextParser.size(ScreenUtility.getSize(this))
         binding.textViewDensity.text = ScreenInfoTextParser.density(ScreenUtility.getDensity(this))

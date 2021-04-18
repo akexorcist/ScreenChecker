@@ -4,8 +4,9 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DisplayInfo(
-    val name: String?,
-    val modeId: Int,
-    val colorSpace: String?
+data class DisplayMode(
+    val id: Int,
+    val refreshRate: Int,
+    val width: Int,
+    val height: Int,
 ) : Parcelable
