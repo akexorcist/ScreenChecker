@@ -41,12 +41,10 @@ object ScreenUtility {
         return Resolution(xDp, yDp)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     fun getAppResolutionPx(rootView: View): Resolution {
         return getAppScreenResolutionPx(rootView)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     fun getAppResolutionDp(activity: Activity, rootView: View): Resolution {
         val display = getDisplay(activity)
         val densityDpi = getDensityDpi(activity, display)
@@ -57,20 +55,9 @@ object ScreenUtility {
     }
 
     private fun getCurrentScreenResolutionPx(activity: Activity, display: Display = getDisplay(activity)): Resolution {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            try {
-                val getRawHeightMethod = Display::class.java.getMethod("getRawHeight")
-                val getRawWidthMethod = Display::class.java.getMethod("getRawWidth")
-                Resolution(getRawWidthMethod.invoke(display) as Int, getRawHeightMethod.invoke(display) as Int)
-            } catch (e: Exception) {
-                @Suppress("DEPRECATION")
-                Resolution(display.width, display.height)
-            }
-        } else {
-            val outMetrics = DisplayMetrics()
-            display.getRealMetrics(outMetrics)
-            Resolution(outMetrics.widthPixels, outMetrics.heightPixels)
-        }
+        val outMetrics = DisplayMetrics()
+        display.getRealMetrics(outMetrics)
+        return Resolution(outMetrics.widthPixels, outMetrics.heightPixels)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -138,10 +125,13 @@ object ScreenUtility {
         return when {
             context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_JAZZHAND) ->
                 Multitouch.JAZZHAND
+
             context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_DISTINCT) ->
                 Multitouch.DISTINCT
+
             context.packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH) ->
                 Multitouch.SIMPLE
+
             else ->
                 Multitouch.UNSUPPORTED
         }
@@ -149,9 +139,7 @@ object ScreenUtility {
 
     fun getCurrentDisplay(activity: Activity): DisplayInfo {
         val display = getDisplay(activity)
-        val name: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            display.name
-        } else null
+        val name: String? = display.name
         val mode: DisplayMode? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             DisplayMode(
                 id = display.mode.modeId,

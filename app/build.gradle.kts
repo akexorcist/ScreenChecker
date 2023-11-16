@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.akexorcist.checkscreen"
-        minSdk = 16
+        minSdk = 21
         targetSdk = 34
         versionCode = 212
         versionName = "2.2.1"

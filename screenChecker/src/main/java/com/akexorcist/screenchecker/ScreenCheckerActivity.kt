@@ -46,20 +46,15 @@ class ScreenCheckerActivity : Activity() {
     }
 
     private fun registerDisplayListener() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            val manager: DisplayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-            manager.registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
-        }
+        val manager: DisplayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        manager.registerDisplayListener(displayListener, Handler(Looper.getMainLooper()))
     }
 
     private fun unregisterDisplayListener() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            val manager: DisplayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-            manager.unregisterDisplayListener(displayListener)
-        }
+        val manager: DisplayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        manager.unregisterDisplayListener(displayListener)
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private val displayListener = object : OnDisplayChangedListener {
         override fun onDisplayChanged(displayId: Int) {
             updateScreenInfo()
