@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.akexorcist.checkscreen"
+    namespace = "app.akexorcist.checkscreen"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.akexorcist.checkscreen"
+        applicationId = "app.akexorcist.checkscreen"
         minSdk = 21
         targetSdk = 34
         versionCode = 213

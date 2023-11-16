@@ -1,4 +1,4 @@
-package com.akexorcist.checkscreen
+package app.akexorcist.checkscreen
 
 import android.content.Intent
 import android.os.Bundle
