@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class DisplayInfo(
     val name: String?,
     val mode: DisplayMode?,
-    val colorSpace: String?
+    val rotation: Int,
+    val colorSpace: String?,
 ) : Parcelable

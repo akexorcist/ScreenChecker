@@ -8,6 +8,7 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.view.Display
 import android.view.View
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 
 object ScreenUtility {
@@ -55,9 +56,17 @@ object ScreenUtility {
     }
 
     private fun getCurrentScreenResolutionPx(activity: Activity, display: Display = getDisplay(activity)): Resolution {
-        val outMetrics = DisplayMetrics()
-        display.getRealMetrics(outMetrics)
-        return Resolution(outMetrics.widthPixels, outMetrics.heightPixels)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowManager = activity.getSystemService(WindowManager::class.java)
+            windowManager.currentWindowMetrics.bounds.let {
+                Resolution(it.width(), it.height())
+            }
+        } else {
+            val outMetrics = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            display.getRealMetrics(outMetrics)
+            Resolution(outMetrics.widthPixels, outMetrics.heightPixels)
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -86,24 +95,30 @@ object ScreenUtility {
         return context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_LONG_MASK
     }
 
-    fun getColorMode(context: Context): ColorMode =
+    fun getColorMode(activity: Activity, display: Display = getDisplay(activity)): ColorMode =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val hdr = context.resources.configuration.colorMode and Configuration.COLOR_MODE_HDR_MASK
-            val wideColorGamut = context.resources.configuration.colorMode and Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_MASK
             ColorMode(
-                hdr = hdr == Configuration.COLOR_MODE_HDR_YES,
-                wideColorGamut = wideColorGamut == Configuration.COLOR_MODE_WIDE_COLOR_GAMUT_YES
+                hdr = display.isHdr,
+                wideColorGamut = display.isWideColorGamut,
+                hdrSdrRatio = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    display.isHdrSdrRatioAvailable
+                } else false
             )
         } else {
             ColorMode(
                 hdr = false,
-                wideColorGamut = false
+                wideColorGamut = false,
+                hdrSdrRatio = false,
             )
         }
 
+    @Suppress("DEPRECATION")
     fun getHdrType(activity: Activity, display: Display = getDisplay(activity)): HdrType? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val supportedHdrTypes: IntArray = display.hdrCapabilities.supportedHdrTypes
+            val supportedHdrTypes: IntArray =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) display.mode.supportedHdrTypes
+                else display.hdrCapabilities.supportedHdrTypes
+
             HdrType(
                 dolbyVision = supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION),
                 hdr10 = supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_HDR10),
@@ -148,13 +163,15 @@ object ScreenUtility {
                 height = display.mode.physicalHeight
             )
         } else null
+        val rotation = display.rotation
         val colorSpace: String? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             display.preferredWideGamutColorSpace?.name
         } else null
         return DisplayInfo(
             name = name,
             mode = mode,
-            colorSpace = colorSpace
+            rotation = rotation,
+            colorSpace = colorSpace,
         )
     }
 

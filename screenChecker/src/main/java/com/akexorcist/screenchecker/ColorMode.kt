@@ -6,5 +6,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ColorMode(
     val hdr: Boolean,
-    val wideColorGamut: Boolean
+    val wideColorGamut: Boolean,
+    val hdrSdrRatio: Boolean,
 ) : Parcelable

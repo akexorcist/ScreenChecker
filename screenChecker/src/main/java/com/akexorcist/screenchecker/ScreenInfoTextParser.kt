@@ -2,6 +2,7 @@ package com.akexorcist.screenchecker
 
 import android.content.res.Configuration
 import android.util.DisplayMetrics
+import android.view.Surface
 
 object ScreenInfoTextParser {
     fun size(screenSize: Int): String = when (screenSize) {
@@ -34,9 +35,18 @@ object ScreenInfoTextParser {
         DisplayMetrics.DENSITY_420 -> "Density 420"
         DisplayMetrics.DENSITY_440 -> "Density 440"
         DisplayMetrics.DENSITY_450 -> "Density 450"
+        DisplayMetrics.DENSITY_520 -> "Density 520"
         DisplayMetrics.DENSITY_560 -> "Density 560"
         DisplayMetrics.DENSITY_600 -> "Density 600"
         else -> "Unknown Density ($density)"
+    }
+
+    fun rotation(rotation: Int) = when(rotation) {
+        Surface.ROTATION_0 -> "0°"
+        Surface.ROTATION_90 -> "90°"
+        Surface.ROTATION_180 -> "180°"
+        Surface.ROTATION_270 -> "270°"
+        else -> "Unknown Rotation"
     }
 
     fun layout(layout: Int): String = when (layout) {
@@ -52,6 +62,9 @@ object ScreenInfoTextParser {
         }
         if (colorMode.wideColorGamut) {
             add("Wide Color Gamut")
+        }
+        if (colorMode.hdrSdrRatio) {
+            add("HDR/SDR")
         }
     }.takeIf {
         it.isNotEmpty()
