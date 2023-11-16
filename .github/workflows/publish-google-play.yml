@@ -57,5 +57,5 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{secrets.SERVICE_ACCOUNT_JSON}}
           releaseFiles: bundle/release/app-release.aab
-          packageName: com.akexorcist.checkscreen
+          packageName: app.akexorcist.checkscreen
           track: production
