@@ -5,6 +5,7 @@
         android:supportsRtl="true">
         <activity
             android:name=".ScreenCheckerActivity"
+            android:exported="false"
             android:resizeableActivity="true"
             android:screenOrientation="fullUser" />
     </application>
