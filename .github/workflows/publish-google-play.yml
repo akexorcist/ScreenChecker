@@ -1,0 +1,61 @@
+name: Publish App to Google Play
+
+on:
+  workflow_dispatch
+
+jobs:
+  build:
+    name: Build AAB
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+          cache: gradle
+
+      - name: Prepare Keystore
+        run: |
+          mkdir "${GITHUB_WORKSPACE}"/keystore
+          echo "${{secrets.ENCRYPTED_KEYSTORE}}" > keystore/keystore.asc
+          gpg -d --passphrase "${{secrets.KEYSTORE_PASSPHRASE}}" --batch keystore/keystore.asc > keystore/keystore.jks
+
+      - name: Prepare Keystore variables
+        run: |
+          echo "keystore_path=${GITHUB_WORKSPACE}/keystore/keystore.jks" &>> local.properties
+          echo "keystore_password=${{secrets.KEYSTORE_PASSWORD}}" &>> local.properties
+          echo "keystore_key_alias=${{secrets.KEYSTORE_KEY_ALIAS}}" &>> local.properties
+          echo "keystore_key_password=${{secrets.KEYSTORE_KEY_PASSWORD}}" &>> local.properties
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build AAB with Gradle
+        run: ./gradlew :app:bundleRelease
+
+      - name: Update AAB to artifactory
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-app-bundle
+          path: app/build/outputs/
+          retention-days: 1
+
+  publish:
+    name: Publish to Google Play
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build output from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: release-app-bundle
+
+      - name: Upload Android Release to Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{secrets.SERVICE_ACCOUNT_JSON}}
+          releaseFiles: bundle/release/app-release.aab
+          packageName: com.akexorcist.checkscreen
+          track: production
