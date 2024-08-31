@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "app.akexorcist.checkscreen"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "app.akexorcist.checkscreen"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 215
         versionName = "2.3.2"
 

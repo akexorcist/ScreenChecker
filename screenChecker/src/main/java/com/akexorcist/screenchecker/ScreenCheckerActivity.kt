@@ -1,6 +1,5 @@
 package com.akexorcist.screenchecker
 
-import android.app.Activity
 import android.content.Context
 import android.hardware.display.DisplayManager
 import android.os.Build
@@ -8,14 +7,21 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import androidx.annotation.RequiresApi
+import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.akexorcist.screenchecker.databinding.ActivityScreenCheckerBinding
 
-class ScreenCheckerActivity : Activity() {
+class ScreenCheckerActivity : ComponentActivity() {
     private val binding: ActivityScreenCheckerBinding by lazy { ActivityScreenCheckerBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupView()
@@ -28,6 +34,18 @@ class ScreenCheckerActivity : Activity() {
 
     private fun setupView() {
         binding.root.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                topMargin = insets.top
+                rightMargin = insets.right
+                bottomMargin = insets.bottom
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.dark_gray)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.dark_gray)
         updateScreenInfo()
     }
 

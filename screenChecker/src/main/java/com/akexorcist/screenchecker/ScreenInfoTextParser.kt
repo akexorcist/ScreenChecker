@@ -31,6 +31,7 @@ object ScreenInfoTextParser {
         DisplayMetrics.DENSITY_300 -> "Density 300"
         DisplayMetrics.DENSITY_340 -> "Density 340"
         DisplayMetrics.DENSITY_360 -> "Density 360"
+        DisplayMetrics.DENSITY_390 -> "Density 390"
         DisplayMetrics.DENSITY_400 -> "Density 400"
         DisplayMetrics.DENSITY_420 -> "Density 420"
         DisplayMetrics.DENSITY_440 -> "Density 440"
@@ -68,7 +69,7 @@ object ScreenInfoTextParser {
         }
     }.takeIf {
         it.isNotEmpty()
-    }?.joinToString(separator = System.getProperty("line.separator") as CharSequence)
+    }?.joinToString(separator = System.lineSeparator() as CharSequence)
         ?: "Not supported"
 
     fun multitouch(multitouch: Int): String = when (multitouch) {
@@ -116,7 +117,7 @@ object ScreenInfoTextParser {
         }
     }.takeIf {
         it.isNotEmpty()
-    }?.joinToString(separator = System.getProperty("line.separator") as CharSequence)
+    }?.joinToString(separator = System.lineSeparator() as CharSequence)
         ?: "Not supported"
 
     fun currentDisplay(displayInfo: DisplayInfo): String = mutableListOf<String>().apply {
@@ -126,10 +127,10 @@ object ScreenInfoTextParser {
             ?.let { add(it) }
         displayInfo.mode
             ?.let { add(displayMode(it)) }
-    }.joinToString(separator = System.getProperty("line.separator") as CharSequence)
+    }.joinToString(separator = System.lineSeparator() as CharSequence)
 
     fun supportedDisplayMode(displayModes: List<DisplayMode>): String {
-        val separator = System.getProperty("line.separator")
+        val separator = System.lineSeparator()
         return displayModes.takeIf { it.isNotEmpty() }
             ?.let { it.map { mode -> displayMode(mode) } }
             ?.joinToString(separator = "$separator$separator" as CharSequence)
@@ -137,7 +138,7 @@ object ScreenInfoTextParser {
     }
 
     private fun displayMode(mode: DisplayMode): String {
-        val separator = System.getProperty("line.separator")
+        val separator = System.lineSeparator()
         return "(${mode.id}) ${mode.width} x ${mode.height}$separator${mode.refreshRate}Hz"
     }
 }
