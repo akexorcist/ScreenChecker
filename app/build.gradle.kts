@@ -30,6 +30,9 @@ android {
             storePassword = properties.getProperty("keystore_password")
             keyAlias = properties.getProperty("keystore_key_alias")
             keyPassword = properties.getProperty("keystore_key_password")
+
+            enableV3Signing = true
+            enableV4Signing = true
         }
     }
 
