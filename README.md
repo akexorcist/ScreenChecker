@@ -1,7 +1,7 @@
 # Android-ScreenChecker
 Screen Checker application for development information
 
-<img src="https://github.com/akexorcist/Android-ScreenChecker/raw/master/image/image_01.jpg" alt="Screen Checker Banner" width="600"/>
+<img src="https://github.com/akexorcist/Android-ScreenChecker/raw/main/image/image_01.jpg" alt="Screen Checker Banner" width="600"/>
 
 • All screen information that you need to know for Android development
 
@@ -15,6 +15,6 @@ Screen Checker application for development information
 
 • Physical, Display and Application screen resolution supported
 
-<img src="https://github.com/akexorcist/Android-ScreenChecker/raw/master/image/image_02.jpg" alt="Screen Checker on Samsung DeX" width="600"/>
+<img src="https://github.com/akexorcist/Android-ScreenChecker/raw/main/image/image_02.jpg" alt="Screen Checker on Samsung DeX" width="600"/>
 
 
