@@ -13,8 +13,8 @@ android {
         applicationId = "app.akexorcist.checkscreen"
         minSdk = 21
         targetSdk = 35
-        versionCode = 217
-        versionName = "2.4.1"
+        versionCode = (project.findProperty("releaseVersionCode") as String?)?.toInt() ?: 217
+        versionName = project.findProperty("releaseVersionName") as String? ?: "2.4.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
