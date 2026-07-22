@@ -2,17 +2,16 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    kotlin("android")
 }
 
 android {
     namespace = "app.akexorcist.checkscreen"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "app.akexorcist.checkscreen"
         minSdk = 21
-        targetSdk = 35
+        targetSdk = 37
         versionCode = (project.findProperty("releaseVersionCode") as String?)?.toInt() ?: 217
         versionName = project.findProperty("releaseVersionName") as String? ?: "2.4.1"
 
@@ -51,17 +50,13 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.test.ext:junit:1.3.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
     implementation(project(path = ":screenChecker"))
-    implementation("com.google.android.gms:play-services-instantapps:18.1.0")
+    implementation("com.google.android.gms:play-services-instantapps:18.2.0")
 }
