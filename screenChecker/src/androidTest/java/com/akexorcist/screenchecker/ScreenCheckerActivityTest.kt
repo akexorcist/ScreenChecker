@@ -1,76 +1,54 @@
 package com.akexorcist.screenchecker
 
-import android.os.Build
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.hamcrest.Matchers.not
+import androidx.test.ext.junit.rules.activityScenarioRule
+import com.kaspersky.kaspresso.testcases.api.testcase.TestCase
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
-class ScreenCheckerActivityTest {
+class ScreenCheckerActivityTest : TestCase() {
     @get:Rule
-    val activityRule = ActivityScenarioRule(ScreenCheckerActivity::class.java)
+    val activityRule = activityScenarioRule<ScreenCheckerActivity>()
 
     @Test
-    fun resolutionLayoutMatchesTheCurrentApiLevel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            onView(withId(R.id.layoutMultiResolution)).check(matches(isDisplayed()))
-            onView(withId(R.id.layoutSingleResolution)).check(matches(not(isDisplayed())))
-        } else {
-            onView(withId(R.id.layoutSingleResolution)).check(matches(isDisplayed()))
-            onView(withId(R.id.layoutMultiResolution)).check(matches(not(isDisplayed())))
+    fun multiResolutionLayoutIsDisplayed() = run {
+        step("Multi-resolution layout is displayed, single-resolution layout is not") {
+            ScreenCheckerScreen {
+                layoutMultiResolution.isDisplayed()
+                layoutSingleResolution.isNotDisplayed()
+            }
         }
     }
 
     @Test
-    fun resolutionValuesAreDisplayedForTheActiveLayout() {
-        val resolutionViewIds = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            listOf(
-                R.id.textViewMultiDeviceResolutionPx,
-                R.id.textViewMultiDeviceResolutionDp,
-                R.id.textViewMultiCurrentResolutionPx,
-                R.id.textViewMultiCurrentResolutionDp,
-                R.id.textViewMultiAppResolutionPx,
-                R.id.textViewMultiAppResolutionDp,
-            )
-        } else {
-            listOf(
-                R.id.textViewSingleDeviceResolutionPx,
-                R.id.textViewSingleDeviceResolutionDp,
-                R.id.textViewSingleAppResolutionPx,
-                R.id.textViewSingleAppResolutionDp,
-            )
-        }
-
-        resolutionViewIds.forEach { id ->
-            onView(withId(id)).check(matches(isDisplayed()))
+    fun resolutionValuesAreDisplayed() = run {
+        step("Device, current and app resolution values are displayed") {
+            ScreenCheckerScreen {
+                textViewMultiDeviceResolutionPx.isDisplayed()
+                textViewMultiDeviceResolutionDp.isDisplayed()
+                textViewMultiCurrentResolutionPx.isDisplayed()
+                textViewMultiCurrentResolutionDp.isDisplayed()
+                textViewMultiAppResolutionPx.isDisplayed()
+                textViewMultiAppResolutionDp.isDisplayed()
+            }
         }
     }
 
     @Test
-    fun allScreenInfoRowsAreDisplayed() {
-        val infoViewIds = listOf(
-            R.id.textViewDpi,
-            R.id.textViewCurrentDisplay,
-            R.id.textViewSupportedDisplayMode,
-            R.id.textViewRotation,
-            R.id.textViewSize,
-            R.id.textViewDensity,
-            R.id.textViewLayout,
-            R.id.textViewUiMode,
-            R.id.textViewColorMode,
-            R.id.textViewHdrType,
-            R.id.textViewMultitouch,
-        )
-
-        infoViewIds.forEach { id ->
-            onView(withId(id)).check(matches(isDisplayed()))
+    fun allScreenInfoRowsAreDisplayed() = run {
+        step("All screen info rows are displayed") {
+            ScreenCheckerScreen {
+                textViewDpi.isDisplayed()
+                textViewCurrentDisplay.isDisplayed()
+                textViewSupportedDisplayMode.isDisplayed()
+                textViewRotation.isDisplayed()
+                textViewSize.isDisplayed()
+                textViewDensity.isDisplayed()
+                textViewLayout.isDisplayed()
+                textViewUiMode.isDisplayed()
+                textViewColorMode.isDisplayed()
+                textViewHdrType.isDisplayed()
+                textViewMultitouch.isDisplayed()
+            }
         }
     }
 }
