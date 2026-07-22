@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +19,9 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Compile Kotlin sources and Android resources
+        run: ./gradlew compileDebugSources
 
       - name: Run unit tests
         run: ./gradlew testDebugUnitTest
