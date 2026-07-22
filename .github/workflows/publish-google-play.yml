@@ -72,4 +72,4 @@ jobs:
           releaseFiles: bundle/release/app-release.aab
           packageName: app.akexorcist.checkscreen
           track: production
-          status: draft
+          changesNotSentForReview: true
