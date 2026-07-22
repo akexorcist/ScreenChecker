@@ -1,6 +1,7 @@
 package com.akexorcist.screenchecker
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.akexorcist.screenchecker.databinding.ActivityScreenCheckerBinding
@@ -44,8 +46,11 @@ class ScreenCheckerActivity : ComponentActivity() {
             }
             WindowInsetsCompat.CONSUMED
         }
-        window.statusBarColor = ContextCompat.getColor(this, R.color.dark_gray)
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.dark_gray)
+        window.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.dark_gray)))
+        WindowCompat.getInsetsController(window, binding.root).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
         updateScreenInfo()
     }
 

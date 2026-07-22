@@ -5,7 +5,7 @@ Screen Checker application for development information
 
 • All screen information that you need to know for Android development
 
-• Minimum SDK version : 14+
+• Minimum SDK version : 21+
 
 • Samsung DeX supported
 

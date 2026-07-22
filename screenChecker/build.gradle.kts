@@ -1,16 +1,14 @@
 plugins {
     id("com.android.library")
-    kotlin("android")
     kotlin("plugin.parcelize")
 }
 
 android {
     namespace = "com.akexorcist.screenchecker"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 35
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,12 +24,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -40,11 +34,11 @@ android {
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.9.1")
-    implementation("androidx.activity:activity-ktx:1.9.3")
+    implementation("androidx.annotation:annotation:1.10.0")
+    implementation("androidx.activity:activity-ktx:1.11.0")
     testImplementation("junit:junit:4.13.2")
-    testImplementation("io.kotest:kotest-assertions-core:5.9.1")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.ext:junit-ktx:1.2.1")
+    testImplementation("io.kotest:kotest-assertions-core:6.1.5")
+    androidTestImplementation("androidx.test.ext:junit:1.3.0")
+    androidTestImplementation("androidx.test.ext:junit-ktx:1.3.0")
     androidTestImplementation("com.kaspersky.android-components:kaspresso:1.6.1")
 }

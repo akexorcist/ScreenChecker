@@ -117,7 +117,7 @@ object ScreenUtility {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val supportedHdrTypes: IntArray =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) display.mode.supportedHdrTypes
-                else display.hdrCapabilities.supportedHdrTypes
+                else display.hdrCapabilities?.supportedHdrTypes ?: intArrayOf()
 
             HdrType(
                 dolbyVision = supportedHdrTypes.contains(Display.HdrCapabilities.HDR_TYPE_DOLBY_VISION),
