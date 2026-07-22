@@ -13,14 +13,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    testOptions {
-        targetSdk = 37
-    }
-
-    lint {
-        targetSdk = 37
-    }
-
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
