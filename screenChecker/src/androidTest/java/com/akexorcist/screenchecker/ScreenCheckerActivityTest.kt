@@ -10,17 +10,14 @@ class ScreenCheckerActivityTest : TestCase() {
     val activityRule = activityScenarioRule<ScreenCheckerActivity>()
 
     @Test
-    fun multiResolutionLayoutIsDisplayed() = run {
+    fun screenCheckerActivityDisplaysAllInfo() = run {
         step("Multi-resolution layout is displayed, single-resolution layout is not") {
             ScreenCheckerScreen {
                 layoutMultiResolution.isDisplayed()
                 layoutSingleResolution.isNotDisplayed()
             }
         }
-    }
 
-    @Test
-    fun resolutionValuesAreDisplayed() = run {
         step("Device, current and app resolution values are displayed") {
             ScreenCheckerScreen {
                 textViewMultiDeviceResolutionPx.isDisplayed()
@@ -31,10 +28,7 @@ class ScreenCheckerActivityTest : TestCase() {
                 textViewMultiAppResolutionDp.isDisplayed()
             }
         }
-    }
 
-    @Test
-    fun allScreenInfoRowsAreDisplayed() = run {
         step("All screen info rows are displayed") {
             ScreenCheckerScreen {
                 textViewDpi.isDisplayed()
